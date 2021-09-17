@@ -1,4 +1,4 @@
-from .task import Task
+from .task import AssignmentTask
 from time import sleep
 
 
@@ -6,7 +6,7 @@ class Menu:
 
     def __init__(self):
         self.menu = {}
-        self.instance = Task()
+        self.instance = AssignmentTask()
 
     def execute(self):
         select = self.print_menu()

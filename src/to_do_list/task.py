@@ -4,6 +4,21 @@ from tabulate import tabulate
 
 class Task:
 
+    def __init__(self, title, content, assign_to, status, create_date):
+        self.title = title
+        self.content = content
+        self.assign_to = assign_to
+        self.status = status
+        self.create_date = create_date
+
+    @property
+    def get(self):
+        return {'title': self.title, 'content': self.content, 'assign_to': self.assign_to,
+                'status': self.status, 'create_date': self.create_date}
+
+
+class AssignmentTask:
+
     def __init__(self):
         self.tasks = {}
         self.fields = {
@@ -44,11 +59,14 @@ class Task:
 
     def create(self):
         id_task = max(self.tasks.keys()) + 1 if len(self.tasks) > 0 else 1
-        self.tasks[id_task] = {}
+        element = {}
         for field in self.fields:
             data_field = self.valide_data(field)
-            self.tasks[id_task][field] = data_field
-        self.tasks[id_task]['create_date'] = datetime.datetime.now().strftime('%YY/%m/%d %H:%M:%S')
+            element[field] = data_field
+        element['create_date'] =  datetime.datetime.now().strftime('%YY/%m/%d %H:%M:%S')
+        object_task = Task(title=element['title'], content=element['content'],
+                       assign_to=element['assign_to'], status=element['status'], create_date=element['create_date'])
+        self.tasks[id_task] = object_task
         print('Create success')
         return True
 
@@ -56,9 +74,12 @@ class Task:
         headers = ['Title of task', 'Content of task', 'Assign task to', 'Status of task', 'Date created']
         results = []
         for task in self.tasks:
-            result = [self.tasks[task]['title'], self.tasks[task]['content'], self.tasks[task]['assign_to'],
-                      self.tasks[task]['status'], self.tasks[task]['create_date']
+            result = [self.tasks[task].title, self.tasks[task].content, self.tasks[task].assign_to,
+                      self.tasks[task].status, self.tasks[task].create_date
                       ]
             results.append(result)
         print(tabulate(results, headers=headers))
         return True
+
+
+
