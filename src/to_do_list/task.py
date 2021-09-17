@@ -4,12 +4,12 @@ from tabulate import tabulate
 
 class Task:
 
-    def __init__(self, title, content, assign_to, status, create_date):
+    def __init__(self, title, content, assign_to, status):
         self.title = title
         self.content = content
         self.assign_to = assign_to
         self.status = status
-        self.create_date = create_date
+        self.create_date = datetime.datetime.now().strftime('%YY/%m/%d %H:%M:%S')
 
     @property
     def get(self):
@@ -63,9 +63,8 @@ class AssignmentTask:
         for field in self.fields:
             data_field = self.valide_data(field)
             element[field] = data_field
-        element['create_date'] =  datetime.datetime.now().strftime('%YY/%m/%d %H:%M:%S')
         object_task = Task(title=element['title'], content=element['content'],
-                       assign_to=element['assign_to'], status=element['status'], create_date=element['create_date'])
+                           assign_to=element['assign_to'], status=element['status'])
         self.tasks[id_task] = object_task
         print('Create success')
         return True
@@ -80,6 +79,3 @@ class AssignmentTask:
             results.append(result)
         print(tabulate(results, headers=headers))
         return True
-
-
-
