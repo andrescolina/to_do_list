@@ -4,12 +4,13 @@ from tabulate import tabulate
 
 class Task:
 
-    def __init__(self, title, content, assign_to, status):
+    def __init__(self, id, title, content, assign_to, status):
+        self.id = id
         self.title = title
         self.content = content
         self.assign_to = assign_to
         self.status = status
-        self.create_date = datetime.datetime.now().strftime('%YY/%m/%d %H:%M:%S')
+        self.create_date = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
 
     @property
     def get(self):
@@ -63,17 +64,17 @@ class AssignmentTask:
         for field in self.fields:
             data_field = self.valide_data(field)
             element[field] = data_field
-        object_task = Task(title=element['title'], content=element['content'],
+        object_task = Task(id=id_task, title=element['title'], content=element['content'],
                            assign_to=element['assign_to'], status=element['status'])
         self.tasks[id_task] = object_task
         print('Create success')
         return True
 
     def get(self):
-        headers = ['Title of task', 'Content of task', 'Assign task to', 'Status of task', 'Date created']
+        headers = ['id', 'Title of task', 'Content of task', 'Assign task to', 'Status of task', 'Date created']
         results = []
         for task in self.tasks:
-            result = [self.tasks[task].title, self.tasks[task].content, self.tasks[task].assign_to,
+            result = [self.tasks[task].id, self.tasks[task].title, self.tasks[task].content, self.tasks[task].assign_to,
                       self.tasks[task].status, self.tasks[task].create_date
                       ]
             results.append(result)
